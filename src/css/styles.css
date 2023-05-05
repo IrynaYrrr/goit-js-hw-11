@@ -22,8 +22,12 @@ input[type='text'] {
   transition: width 0.4s ease-in-out;
 }
 
+.search-form {
+  margin-left: 25em;
+}
+
 input[type='text']:focus {
-  width: 90%;
+  width: 65%;
 }
 
 input::placeholder {
