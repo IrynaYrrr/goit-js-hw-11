@@ -71,6 +71,7 @@ function renderImgList(images){
 
 function onClick(e) {
   e.preventDefault();
+  window.scrollTo(0,0);
   page += 1;
   searchFn();
 }
