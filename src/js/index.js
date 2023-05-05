@@ -10,8 +10,6 @@ const buttonLoadMore = document.querySelector("button[type=button]");
 
 buttonLoadMore.style.display="none";
 
-// console.log(buttonLoadMore);
-
 buttonLoadMore.addEventListener('click', onClick);
 
 form.addEventListener("submit", handleSubmit);
@@ -21,8 +19,6 @@ async function searchFn() {
   buttonLoadMore.style.display="none";
   const inputValue = input.value.trim();
   const images = await fetchImage(inputValue, page);
-
-  console.log(images);
 
   if(images.hits.length === 0){
     Notify.failure('Sorry, there are no images matching your search query. Please try again.',  {
