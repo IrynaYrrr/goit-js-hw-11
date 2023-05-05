@@ -21,16 +21,16 @@ function renderImgList(images){
         <img src="${img.webformatURL}" alt="${img.tags}" loading="lazy" />
         <div class="info">
           <p class="info-item">
-            <b>${img.likes}</b>
+            <b>Likes: ${img.likes}</b>
           </p>
           <p class="info-item">
-            <b>${img.views}</b>
+            <b>Views: ${img.views}</b>
           </p>
           <p class="info-item">
-            <b>${img.comments}</b>
+            <b>Comments: ${img.comments}</b>
           </p>
           <p class="info-item">
-            <b>${img.downloads}</b>
+            <b>Downloads: ${img.downloads}</b>
           </p>
         </div>
       </div>`;
