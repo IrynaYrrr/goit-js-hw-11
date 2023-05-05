@@ -35,7 +35,7 @@ input::placeholder {
   font-size: 18px;
 }
 
-button[type='submit'] {
+button {
   background-color: #708eea;
   border: none;
   border-radius: 7px;
@@ -44,6 +44,12 @@ button[type='submit'] {
   text-decoration: none;
   margin: 4px 2px;
   cursor: pointer;
+}
+
+button[type='button'] {
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 50px;
 }
 
 .search-form {
@@ -55,6 +61,7 @@ button[type='submit'] {
   flex-wrap: wrap;
   justify-content: center;
   gap: 30px;
+  margin-bottom: 50px;
 }
 
 img {
