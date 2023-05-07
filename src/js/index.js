@@ -70,7 +70,9 @@ function renderImgList(images) {
   const markup = images
     .map((img) => {
       return `<div class="photo-card">
+      <div class="img-wrap">
         <img src="${img.webformatURL}" alt="${img.tags}" loading="lazy" />
+      </div>
         <div class="info">
           <p class="info-item">
             <b>Likes: ${img.likes}</b>
