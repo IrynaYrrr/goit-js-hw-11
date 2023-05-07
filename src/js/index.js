@@ -1,29 +1,23 @@
 import './../css/styles.css';
 import { fetchImage } from './fetchImage';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import SimpleLightbox from "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css";
 
 let page = 1;
+let inputRequest = '';
 const form = document.querySelector("#search-form");
 const input = document.querySelector("input");
 const gallery = document.querySelector(".gallery");
 const buttonLoadMore = document.querySelector("button[type=button]");
 
+let galleryCards = new SimpleLightbox('.img-wrap a');
+
 buttonLoadMore.style.display = "none";
 
 buttonLoadMore.addEventListener('click', onClick);
 
-input.addEventListener('input', onInput);
-
-function onInput(event) {
-  if (!event.currentTarget.value) {
-    buttonLoadMore.style.display = "none";
-    gallery.innerHTML = '';
-  }
-  return;
-}
-
 form.addEventListener("submit", handleSubmit);
-
 
 async function searchFn() {
   buttonLoadMore.style.display = "none";
@@ -33,6 +27,12 @@ async function searchFn() {
     gallery.innerHTML = '';
     return;
   }
+
+  if (inputValue !== inputRequest) {
+    gallery.innerHTML = '';
+  }
+
+  inputRequest = inputValue
 
   try {
     const images = await fetchImage(inputValue, page);
@@ -59,11 +59,14 @@ async function searchFn() {
       buttonLoadMore.style.display = "block";
     }
 
-    Notify.info(`Hooray! We found ${images.totalHits} images.`, {
-      width: '300px',
-      position: 'center-top',
-      distance: '10px',
-    });
+    if (page === 1) {
+      Notify.info(`Hooray! We found ${images.totalHits} images.`, {
+        width: '300px',
+        position: 'center-top',
+        distance: '10px',
+        timeout: 2000,
+      });
+    }
 
     renderImgList(images.hits);
 
@@ -77,7 +80,7 @@ function renderImgList(images) {
     .map((img) => {
       return `<div class="photo-card">
       <div class="img-wrap">
-        <img src="${img.webformatURL}" alt="${img.tags}" loading="lazy" />
+      <a href="${img.largeImageURL}"><img src="${img.webformatURL}" alt="${img.tags}" loading="lazy" /></a>
       </div>
         <div class="info">
           <p class="info-item">
@@ -101,6 +104,7 @@ function renderImgList(images) {
 
 function onClick(e) {
   e.preventDefault();
+  galleryCards.refresh();
   page += 1;
   searchFn();
 }
