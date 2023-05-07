@@ -11,6 +11,8 @@ const input = document.querySelector("input");
 const gallery = document.querySelector(".gallery");
 const buttonLoadMore = document.querySelector("button[type=button]");
 
+
+
 buttonLoadMore.style.display = "none";
 
 buttonLoadMore.addEventListener('click', onClickLoadMore);
@@ -104,6 +106,19 @@ function renderImgList(images) {
 
 
   galleryCards.refresh();
+
+  if (page > 1) {
+    const { height: cardHeight } = document
+      .querySelector(".gallery")
+      .firstElementChild.getBoundingClientRect();
+
+    window.scrollBy({
+      top: cardHeight * 1.1,
+      behavior: "smooth",
+    });
+  }
+
+
 };
 
 function onClickLoadMore(e) {
