@@ -11,13 +11,13 @@ const input = document.querySelector("input");
 const gallery = document.querySelector(".gallery");
 const buttonLoadMore = document.querySelector("button[type=button]");
 
-let galleryCards = new SimpleLightbox('.img-wrap a');
-
 buttonLoadMore.style.display = "none";
 
-buttonLoadMore.addEventListener('click', onClick);
+buttonLoadMore.addEventListener('click', onClickLoadMore);
 
 form.addEventListener("submit", handleSubmit);
+
+const galleryCards = new SimpleLightbox('.gallery a');
 
 async function searchFn() {
   buttonLoadMore.style.display = "none";
@@ -99,12 +99,15 @@ function renderImgList(images) {
       </div>`;
     })
     .join("");
+
   gallery.insertAdjacentHTML("beforeend", markup);
+
+
+  galleryCards.refresh();
 };
 
-function onClick(e) {
+function onClickLoadMore(e) {
   e.preventDefault();
-  galleryCards.refresh();
   page += 1;
   searchFn();
 }
