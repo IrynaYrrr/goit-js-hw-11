@@ -8,46 +8,68 @@ const input = document.querySelector("input");
 const gallery = document.querySelector(".gallery");
 const buttonLoadMore = document.querySelector("button[type=button]");
 
-buttonLoadMore.style.display="none";
+buttonLoadMore.style.display = "none";
 
 buttonLoadMore.addEventListener('click', onClick);
+
+input.addEventListener('input', onInput);
+
+function onInput(event) {
+  if (!event.currentTarget.value) {
+    buttonLoadMore.style.display = "none";
+    gallery.innerHTML = '';
+  }
+  return;
+}
 
 form.addEventListener("submit", handleSubmit);
 
 
 async function searchFn() {
-  buttonLoadMore.style.display="none";
+  buttonLoadMore.style.display = "none";
   const inputValue = input.value.trim();
-  const images = await fetchImage(inputValue, page);
 
-  if(images.hits.length === 0){
-    Notify.failure('Sorry, there are no images matching your search query. Please try again.',  {
-      width: '300px',
-      position: 'center-center',
-      distance: '10px',
-    });
-
+  if (inputValue === '') {
+    gallery.innerHTML = '';
     return;
   }
 
-  if(images.hits.length < 40) {
-    Notify.info("We're sorry, but you've reached the end of search results.",  {
-      width: '300px',
-      position: 'center-bottom',
-      distance: '10px',
-    });
-  }
-  else {
-    buttonLoadMore.style.display="block";
-  }
+  try {
+    const images = await fetchImage(inputValue, page);
 
-  renderImgList(images.hits);
+    if (images.hits.length === 0) {
+      gallery.innerHTML = '';
+      Notify.failure('Sorry, there are no images matching your search query. Please try again.', {
+        width: '300px',
+        position: 'center-center',
+        distance: '10px',
+      });
+
+      return;
+    }
+
+    if (images.hits.length < 40) {
+      Notify.info("We're sorry, but you've reached the end of search results.", {
+        width: '300px',
+        position: 'center-bottom',
+        distance: '10px',
+      });
+    }
+    else {
+      buttonLoadMore.style.display = "block";
+    }
+
+    renderImgList(images.hits);
+
+  } catch (error) {
+    console.error("Get state error: ", error.message);
+  }
 }
 
-function renderImgList(images){
+function renderImgList(images) {
   const markup = images
-      .map((img) => {
-        return `<div class="photo-card">
+    .map((img) => {
+      return `<div class="photo-card">
         <img src="${img.webformatURL}" alt="${img.tags}" loading="lazy" />
         <div class="info">
           <p class="info-item">
@@ -64,14 +86,13 @@ function renderImgList(images){
           </p>
         </div>
       </div>`;
-      })
-      .join("");
-      gallery.innerHTML = markup;
+    })
+    .join("");
+  gallery.insertAdjacentHTML("beforeend", markup);
 };
 
 function onClick(e) {
   e.preventDefault();
-  window.scrollTo(0,0);
   page += 1;
   searchFn();
 }
