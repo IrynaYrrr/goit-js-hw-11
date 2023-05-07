@@ -51,13 +51,19 @@ async function searchFn() {
     if (images.hits.length < 40) {
       Notify.info("We're sorry, but you've reached the end of search results.", {
         width: '300px',
-        position: 'center-bottom',
+        position: 'right-bottom',
         distance: '10px',
       });
     }
     else {
       buttonLoadMore.style.display = "block";
     }
+
+    Notify.info(`Hooray! We found ${images.totalHits} images.`, {
+      width: '300px',
+      position: 'center-top',
+      distance: '10px',
+    });
 
     renderImgList(images.hits);
 
